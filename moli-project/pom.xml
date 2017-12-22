@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>moli-shopping</groupId>
+  <groupId>com.moli</groupId>
   <artifactId>moli-project</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -22,6 +22,7 @@
 		
 		<!-- jdbc driver setting -->
 		<mysql.driver.version>5.1.30</mysql.driver.version>
+		<github.pagehelper.version>5.0.0</github.pagehelper.version>
 		
 		<dubbo.version>2.5.3</dubbo.version>
 		<zookeeper.version>3.4.5</zookeeper.version>
@@ -142,6 +143,13 @@
 						<groupId>org.springframework</groupId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			
+			<!-- 分页 -->
+			<dependency>
+			  <groupId>com.github.pagehelper</groupId>
+			  <artifactId>pagehelper</artifactId>
+			  <version>${github.pagehelper.version}</version>
 			</dependency>
 		
 			<!-- mysql drive -->
