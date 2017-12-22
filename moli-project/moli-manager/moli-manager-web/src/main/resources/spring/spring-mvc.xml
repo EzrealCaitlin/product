@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+	<description>Spring MVC Configuration</description>
+
+	<!-- 加载配置属性文件 -->
+	<import resource="spring-conf.xml" />
+
+	<aop:aspectj-autoproxy />
+
+	<!-- 使用Annotation自动注册Bean,只扫描@Controller(其他的注解扫描会在context配置文件中定义) -->
+	<context:component-scan base-package="com.moli.manager.controller" use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- <bean class="com.amass.basic.aop.LogInterceptor">
+		<property name="includes">
+			<list>
+				<value>/app/cmTbCheckEvent/submit</value>
+			</list>
+		</property>
+	</bean> -->
+	
+	<!-- 默认的注解映射的支持，org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -->
+	<!-- <mvc:annotation-driven
+		content-negotiation-manager="contentNegotiationManager">
+		<mvc:message-converters register-defaults="true">
+			将StringHttpMessageConverter的默认编码设为UTF-8
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+			</bean>
+			将Jackson2HttpMessageConverter的默认格式化输出为false
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+				<property name="prettyPrint" value="false" />
+				<property name="objectMapper">
+					<bean class="com.amass.basic.mapper.JsonMapper"></bean>
+				</property>
+			</bean>
+			使用XML格式输出数据
+			<bean
+				class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+				<constructor-arg>
+					<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+						<property name="streamDriver">
+							<bean class="com.thoughtworks.xstream.io.xml.StaxDriver" />
+						</property>
+						<property name="annotatedClasses">
+							<list>
+							</list>
+						</property>
+					</bean>
+				</constructor-arg>
+				<property name="supportedMediaTypes" value="application/xml"></property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven> -->
+
+	<!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+	<!-- <bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="mediaTypes">
+			<map>
+				<entry key="xml" value="application/xml" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="favorPathExtension" value="true" />
+	</bean> -->
+
+	<!-- 拦截器配置，拦截顺序：按顺序执行。-->
+	<!-- <mvc:interceptors>
+		权限拦截器
+		<mvc:interceptor>
+			登陆及接口访问权限检测访问路径，包括当前目录及其子目录
+			<mvc:mapping path="${app_base_path}/**"/>
+			排除该请求不予拦截,不想检测登陆和接口访问权限的在下面加
+			<mvc:exclude-mapping path="${app_base_path}/user/login"/>
+			<mvc:exclude-mapping path="${app_base_path}/user/gaLogin"/>
+			<mvc:exclude-mapping path="${app_base_path}/user/logout"/>
+			<mvc:exclude-mapping path="${app_base_path}/category/**"/>
+			<mvc:exclude-mapping path="${app_base_path}/article/**"/>
+			<mvc:exclude-mapping path="${app_base_path}/AlarmEvent/**"/>
+			<mvc:exclude-mapping path="${app_base_path}/AlarmTracks/local"/>
+			<mvc:exclude-mapping path="${app_base_path}/user/regcode"/>
+			<mvc:exclude-mapping path="${app_base_path}/user/resetpwd"/>
+			<mvc:exclude-mapping path="${app_base_path}/user/pwdvldcode"/>
+			<mvc:exclude-mapping path="${app_base_path}/user/register"/>
+			<mvc:exclude-mapping path="${app_base_path}/version/new"/>
+			<mvc:exclude-mapping path="${app_base_path}/version/download"/>
+			<mvc:exclude-mapping path="${app_base_path}/version/downloadDebug"/>
+			
+			<mvc:exclude-mapping path="${app_base_path}/user/debug"/>
+			<mvc:exclude-mapping path="${app_base_path}/user/loginCode"/>
+			
+			<mvc:exclude-mapping path="${app_base_path}/cim/**"/>
+			
+			<mvc:exclude-mapping path="${app_base_path}/renthouse/letChangeInfo"/>
+			<mvc:exclude-mapping path="${app_base_path}/renthouse/taxInfo"/>
+			<mvc:exclude-mapping path="${app_base_path}/user/localnum"/>
+			<mvc:exclude-mapping path="${app_base_path}/services/business"/>
+			<mvc:exclude-mapping path="${app_base_path}/sms"/>
+			<mvc:exclude-mapping path="${app_base_path}/qrcode/getRental"/>
+			<mvc:exclude-mapping path="${app_base_path}/flowgatherRegistrationAudit/**"/>
+			<mvc:exclude-mapping path="${app_base_path}/task/**"/>
+			 <mvc:exclude-mapping path="${app_base_path}/publics/upload"/>
+			<bean class="com.amass.basic.interceptors.ScrutinyInterceptor">
+				<property name="cache" ref="localCache"></property>
+				<property name="roleServer" ref="mngTbRoleService"></property>
+			</bean>
+		</mvc:interceptor>
+		
+		消息推送转发服务拦截器
+		<mvc:interceptor>
+			<mvc:mapping path="${app_base_path}/cim/**"/>
+			<bean class="com.amass.basic.interceptors.CimInterceptor"/>
+		</mvc:interceptor>
+		
+	</mvc:interceptors> -->
+    
+	<!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
+	<!-- <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" />
+	</bean> -->
+</beans>
