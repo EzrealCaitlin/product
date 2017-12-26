@@ -64,5 +64,37 @@
 		<artifactId>spring-oxm</artifactId>
 	</dependency>
 	<!-- spring支持  end -->
+	
+	<!-- dubbo支持 start -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>dubbo</artifactId>
+		<exclusions>
+			<exclusion>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>com.101tec</groupId>
+		<artifactId>zkclient</artifactId>
+		<exclusions>
+			<exclusion>
+				<artifactId>org.apache.zookeeper</artifactId>
+				<groupId>zookeeper</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.zookeeper</groupId>
+		<artifactId>zookeeper</artifactId>
+	</dependency>  
+	<!-- dubbo支持 end -->
+	<dependency>
+		<groupId>com.moli</groupId>
+		<artifactId>moli-manager-interface</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
   </dependencies>
 </project>

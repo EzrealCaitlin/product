@@ -4,6 +4,7 @@
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
@@ -12,9 +13,21 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd"
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-lazy-init="true">
 	
 	<!-- 根据@Service注解扫描 -->
 	<context:component-scan base-package="com.moli.manager.service" />	
+	
+	<!-- 提供方应用信息，用于计算依赖关系 ; 不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="moli-manager-service" owner="LiuK" />
+	
+	<!-- multicast广播服务中心暴露服务地址 -->
+	<dubbo:registry address="multicast://224.5.6.7:1234" />
+	<!-- 使用zookeeper暴露服务地址 -->
+	<!-- <dubbo:registry protocol="zookeeper" address="192.168.1.32:2182" file="${user.dir}/dubboCache/server.properties" /> -->
+	
+	<!-- 用dubbo协议在20898端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20881" dispather="all" />
 </beans>

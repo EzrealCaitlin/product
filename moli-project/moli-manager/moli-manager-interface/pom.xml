@@ -2,16 +2,15 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.moli</groupId>
-    <artifactId>moli-project</artifactId>
+    <artifactId>moli-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>moli-manager</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>moli-manager-pojo</module>
-  	<module>moli-manager-dao</module>
-  	<module>moli-manager-service</module>
-  	<module>moli-manager-web</module>
-  	<module>moli-manager-interface</module>
-  </modules>
+  <artifactId>moli-manager-interface</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.moli</groupId>
+  		<artifactId>moli-manager-pojo</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>
