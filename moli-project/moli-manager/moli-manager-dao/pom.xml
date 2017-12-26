@@ -19,7 +19,6 @@
 	<dependency>
 	  <groupId>com.github.pagehelper</groupId>
 	  <artifactId>pagehelper</artifactId>
-	  <version>${github.pagehelper.version}</version>
 	</dependency>
   
   	<!-- mybatis支持 start -->
@@ -49,4 +48,17 @@
 		<artifactId>druid</artifactId>
 	</dependency>
   </dependencies>
+  
+  <build>
+  	<!-- 如果不加此节点，mybatis的mapper.xml会被漏掉 -->
+  	<resources>
+  		<resource>
+  			<directory>src/main/java</directory>
+  			<includes>
+  				<include>**/*.properties</include>
+  				<include>**/*.xml</include>
+  			</includes>
+  		</resource>
+  	</resources>
+  </build>
 </project>
