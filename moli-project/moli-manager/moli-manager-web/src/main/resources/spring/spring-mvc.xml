@@ -2,11 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 	<description>Spring MVC Configuration</description>
 
@@ -23,6 +25,20 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	<!-- 将静态资源自动映射 -->
+	<mvc:resources location="/WEB-INF/css/" mapping="/css/**"/>
+	<mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
+	<mvc:resources location="/WEB-INF/img/" mapping="/img/**"/>
+	
+	<!-- 提供方应用信息，用于计算依赖关系 ; 不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="moli-manager-web" owner="LiuK" />
+	
+	<!-- multicast广播服务中心暴露服务地址 -->
+	<!-- <dubbo:registry address="multicast://224.5.6.7:1234" /> -->
+	<!-- 使用zookeeper暴露服务地址 -->
+	<dubbo:registry protocol="zookeeper" address="192.168.1.32:2181" file="${user.dir}/dubboCache/server.properties" />
+	
+	<dubbo:reference interface="com.moli.manager.service.TbItemService" id="tbItemServiceImpl" />
 
 	<!-- <bean class="com.amass.basic.aop.LogInterceptor">
 		<property name="includes">

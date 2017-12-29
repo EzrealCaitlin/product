@@ -1,16 +1,20 @@
 package com.moli.manager.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 商品信息表
  * 
- * @author wcyong
+ * @author LiuK
  * 
  * @date 2017-12-25
  */
-public class TbItem {
-    /**
+public class TbItem implements Serializable{
+    
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 商品id，也是商品编号
      */
     private Long id;
