@@ -36,7 +36,7 @@
 	<!-- multicast广播服务中心暴露服务地址 -->
 	<!-- <dubbo:registry address="multicast://224.5.6.7:1234" /> -->
 	<!-- 使用zookeeper暴露服务地址 -->
-	<dubbo:registry protocol="zookeeper" address="192.168.1.32:2181" file="${user.dir}/dubboCache/server.properties" />
+	<dubbo:registry protocol="zookeeper" address="192.168.1.144:2181,192.168.1.144:2182,192.168.1.32:2183" file="${user.dir}/dubboCache/server.properties" />
 	
 	<dubbo:reference interface="com.moli.manager.service.TbItemService" id="tbItemServiceImpl" />
 
