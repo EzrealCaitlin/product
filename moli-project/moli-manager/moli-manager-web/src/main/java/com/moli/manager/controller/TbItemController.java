@@ -18,6 +18,8 @@ public class TbItemController {
 	@RequestMapping("/getById/{id}")
 	@ResponseBody
 	public TbItem getById(@PathVariable Long id){
-		return itemService.getById(id);
+		TbItem item = itemService.getById(id);
+		System.out.println(item.getId()+","+item.getTitle());
+		return item;
 	}
 }
